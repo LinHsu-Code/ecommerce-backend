@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["user", "admin"],
-      default: "admin",
+      default: "user",
     },
     contactNumber: {
       type: String,
@@ -50,10 +50,12 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
+
 userSchema.virtual("password").set(function (password) {
-  console.log("---------------");
   this.hash_password = bcrypt.hashSync(password, 10);
-  console.log(this.hash_password);
 });
 
 userSchema.methods = {
