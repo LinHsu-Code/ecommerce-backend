@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 // routers
 const authRouter = require("./routes/auth");
+const adminRouter = require("./routes/admin/auth");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/api", authRouter);
+app.use("/api", adminRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
