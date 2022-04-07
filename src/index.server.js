@@ -1,6 +1,5 @@
 const express = require("express");
 require("dotenv").config();
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 // routers
@@ -18,10 +17,12 @@ mongoose
   });
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
+// app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", authRouter);
 app.use("/api", adminRouter);
