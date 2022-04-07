@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
     });
     _user.save((err, data) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(400).json({
           message: "sign up save user error",
         });
