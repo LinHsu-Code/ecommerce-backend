@@ -47,7 +47,7 @@ exports.signin = (req, res) => {
           expiresIn: "1h",
         });
         const { _id, firstName, lastName, email, role, fullName } = user;
-        res.status(200).json({
+        return res.status(200).json({
           token,
           user: {
             _id,
