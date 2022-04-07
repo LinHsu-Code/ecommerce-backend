@@ -10,6 +10,7 @@ exports.category_create_post = (req, res) => {
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
   }
+  //console.log(categoryObj);
   const category = new Category(categoryObj);
   category.save((err, category) => {
     if (err) {
