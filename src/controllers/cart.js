@@ -1,4 +1,5 @@
 const Cart = require("../models/cart");
+const user = require("../models/user");
 
 // const getCategoryList = (categories, parentId = null) => {
 //   const categoryList = [];
@@ -19,24 +20,53 @@ const Cart = require("../models/cart");
 //   return categoryList;
 // };
 
+const getMergedCart = (cart, cartObj) => {
+  const mergedCart = cart;
+  cartObj.cartItems.forEach((newItem) => {
+    let existedItemIndex = mergedCart.cartItems.findIndex((item) =>
+      item.product.equals(newItem.product)
+    );
+    if (existedItemIndex !== -1) {
+      mergedCart.cartItems[existedItemIndex].quantity += newItem.quantity;
+    } else {
+      mergedCart.cartItems = [...mergedCart.cartItems, newItem];
+    }
+  });
+  return mergedCart;
+};
 exports.cart_add_post = (req, res) => {
-  return res.status(201).json({ message: "add cart test" });
-  //   const categoryObj = {
-  //     name: req.body.name,
-  //     slug: slugify(req.body.name),
-  //   };
-
-  //   if (req.body.parentId) {
-  //     categoryObj.parentId = req.body.parentId;
-  //   }
-  //   //console.log(categoryObj);
-  //   const category = new Category(categoryObj);
-  //   category.save((err, category) => {
-  //     if (err) {
-  //       return res.status(400).json({ message: "create category error" });
-  //     }
-  //     return res.status(201).json({ category });
-  //   });
+  const cartObj = new Cart({
+    user: req.user._id,
+    cartItems: req.body.cartItems,
+  });
+  Cart.findOne({ user: req.user._id }).exec((err, cart) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ message: "find user's cart error", error: err });
+    }
+    if (cart) {
+      // merge new cartItems and existed cartItems
+      const mergedCart = getMergedCart(cart, cartObj);
+      cart.save((err, cart) => {
+        if (err) {
+          return res
+            .status(400)
+            .json({ message: "existed cart update error", error: err });
+        }
+        return res.status(201).json({ cart });
+      });
+    } else {
+      cartObj.save((err, cart) => {
+        if (err) {
+          return res
+            .status(400)
+            .json({ message: "new user's cart add error", error: err });
+        }
+        return res.status(201).json({ cart });
+      });
+    }
+  });
 };
 
 // exports.category_list = (req, res) => {
