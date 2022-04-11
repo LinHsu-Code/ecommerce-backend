@@ -7,6 +7,7 @@ const authRouter = require("./routes/auth");
 const adminRouter = require("./routes/admin/auth");
 const categoryRouter = require("./routes/category");
 const productRouter = require("./routes/product");
+const cartRouter = require("./routes/cart");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/api", authRouter);
 app.use("/api", adminRouter);
 app.use("/api", categoryRouter);
 app.use("/api", productRouter);
+app.use("/api", cartRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
