@@ -34,6 +34,7 @@ const getMergedCart = (cart, cartObj) => {
   });
   return mergedCart;
 };
+
 exports.cart_add_post = (req, res) => {
   const cartObj = new Cart({
     user: req.user._id,

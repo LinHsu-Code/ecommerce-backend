@@ -29,11 +29,16 @@ exports.category_create_post = (req, res) => {
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
   }
+  if (req.file) {
+    categoryObj.categoryImage = req.file.filename;
+  }
   //console.log(categoryObj);
   const category = new Category(categoryObj);
   category.save((err, category) => {
     if (err) {
-      return res.status(400).json({ message: "create category error" });
+      return res
+        .status(400)
+        .json({ message: "create category error", error: err });
     }
     return res.status(201).json({ category });
   });
