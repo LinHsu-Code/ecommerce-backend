@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      uniqued: true,
+      unique: true,
       lowercase: true,
     },
     email: {
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
     contactNumber: {
       type: String,
     },
-    pofilePicture: {
+    profilePicture: {
       type: String,
     },
   },
