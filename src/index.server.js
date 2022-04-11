@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const path = require("path");
 
 // routers
 const authRouter = require("./routes/auth");
@@ -26,7 +27,8 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+//console.log(__dirname);
+app.use("/public", express.static(path.join(__dirname, "uploads")));
 app.use("/api", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/category", categoryRouter);

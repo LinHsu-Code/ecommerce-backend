@@ -1,5 +1,6 @@
 const Category = require("../models/category");
 const slugify = require("slugify");
+require("dotenv").config();
 
 const getCategoryList = (categories, parentId = null) => {
   const categoryList = [];
@@ -30,7 +31,7 @@ exports.category_create_post = (req, res) => {
     categoryObj.parentId = req.body.parentId;
   }
   if (req.file) {
-    categoryObj.categoryImage = req.file.filename;
+    categoryObj.categoryImage = `${process.env.PROTOCOL_DOMAIN}:${process.env.PORT}/public/${req.file.filename}`;
   }
   //console.log(categoryObj);
   const category = new Category(categoryObj);
