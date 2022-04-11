@@ -28,10 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", authRouter);
-app.use("/api", adminRouter);
-app.use("/api", categoryRouter);
-app.use("/api", productRouter);
-app.use("/api", cartRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

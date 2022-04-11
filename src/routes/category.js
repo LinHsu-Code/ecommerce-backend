@@ -7,12 +7,7 @@ const {
 
 const router = express.Router();
 
-router.post(
-  "/category/create",
-  requireSignIn,
-  adminMiddleware,
-  category_create_post
-);
-router.get("/categories", category_list);
+router.post("/create", requireSignIn, adminMiddleware, category_create_post);
+router.get("/list", category_list);
 
 module.exports = router;
