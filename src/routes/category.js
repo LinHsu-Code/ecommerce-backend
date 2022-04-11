@@ -1,5 +1,5 @@
 const express = require("express");
-const { requireSignin, adminMiddleware } = require("../common-middleware");
+const { requireSignIn, adminMiddleware } = require("../common-middleware");
 const {
   category_create_post,
   category_list,
@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/category/create",
-  requireSignin,
+  requireSignIn,
   adminMiddleware,
   category_create_post
 );
