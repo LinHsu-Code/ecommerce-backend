@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
 
 // routers
 const authRouter = require("./routes/auth");
@@ -24,7 +25,7 @@ mongoose
 // app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 // app.use(bodyParser.json());
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //console.log(__dirname);

@@ -5,12 +5,14 @@ exports.signup = (req, res) => {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return res.status(400).json({
-        message: "sign up find admin error",
+        errorMessage: "sign up find admin error",
+        error: err,
       });
     }
     if (user) {
       return res.status(400).json({
-        message: "Admin has already registered",
+        errorMessage: "Admin has already registered",
+        error: err,
       });
     }
     const { firstName, lastName, email, password } = req.body;
@@ -26,7 +28,8 @@ exports.signup = (req, res) => {
       if (err) {
         console.log(err);
         return res.status(400).json({
-          message: "sign up save admin error",
+          errorMessage: "sign up save admin error",
+          error: err,
         });
       }
       return res.status(201).json({
@@ -39,7 +42,9 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
-      return res.status(400).json({ err });
+      return res
+        .status(400)
+        .json({ error: err, errorMessage: "sign in find user error" });
     }
     if (user) {
       if (user.authenticate(req.body.password) && user.role === "admin") {
@@ -51,7 +56,8 @@ exports.signin = (req, res) => {
           }
         );
         const { _id, firstName, lastName, email, role, fullName } = user;
-        return res.status(200).json({
+        res.cookie("token", token, { expiresIn: "1h" });
+        return res.status(201).json({
           token,
           user: {
             _id,
@@ -63,10 +69,18 @@ exports.signin = (req, res) => {
           },
         });
       }
-      return res
-        .status(400)
-        .json({ message: "Invalid Password or the role is not admin" });
+      return res.status(400).json({
+        error: err,
+        errorMessage: "Invalid Password or the role is not admin",
+      });
     }
-    return res.status(400).json({ message: "Invalid Username" });
+    return res
+      .status(400)
+      .json({ error: err, errorMessage: "Invalid Username" });
   });
+};
+
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  return res.status(200).json({ message: "logout successfully" });
 };
