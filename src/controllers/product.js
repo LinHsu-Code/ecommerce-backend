@@ -29,16 +29,6 @@ exports.product_create_post = (req, res) => {
   });
 };
 
-// exports.category_list = (req, res) => {
-//   Category.find({}).exec((err, categories) => {
-//     if (err) {
-//       return res.status(400).json({ message: "get categories error" });
-//     }
-//     const categoryList = getCategoryList(categories);
-//     return res.status(200).json({ categoryList });
-//   });
-// };
-
 exports.product_list = async (req, res) => {
   // const products = await Product.find({ createdBy: req.user._id })
   const products = await Product.find({})
@@ -47,4 +37,21 @@ exports.product_list = async (req, res) => {
     .exec();
 
   res.status(200).json({ products });
+};
+
+exports.product_delete = (req, res) => {
+  const { productId } = req.body;
+  if (productId) {
+    Product.deleteOne({ _id: productId }).exec((err, result) => {
+      if (err)
+        return res
+          .status(400)
+          .json({ error: err, message: "Delete product error" });
+      if (result) {
+        res.status(202).json({ result });
+      }
+    });
+  } else {
+    res.status(400).json({ message: "Params required" });
+  }
 };

@@ -1,7 +1,11 @@
 const express = require("express");
 const multer = require("multer");
 const { requireSignIn, adminMiddleware } = require("../common-middleware");
-const { product_create_post, product_list } = require("../controllers/product");
+const {
+  product_create_post,
+  product_list,
+  product_delete,
+} = require("../controllers/product");
 const { nanoid } = require("nanoid");
 const path = require("path");
 
@@ -26,5 +30,6 @@ router.post(
 );
 
 router.get("/list", requireSignIn, product_list);
+router.delete("/delete", requireSignIn, adminMiddleware, product_delete);
 
 module.exports = router;

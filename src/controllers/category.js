@@ -48,7 +48,7 @@ exports.category_create_post = (req, res) => {
 exports.category_list = (req, res) => {
   Category.find({}).exec((err, categories) => {
     if (err) {
-      return res.status(400).json({ errorMessage: "get categories error" });
+      return res.status(400).json({ message: "get categories error" });
     }
     const categoryList = getCategoryList(categories);
     return res.status(200).json({ categoryList });
