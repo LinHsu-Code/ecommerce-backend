@@ -26,6 +26,6 @@ router.post(
   upload.single("categoryImage"),
   category_create_post
 );
-router.get("/list", category_list);
+router.get("/list", requireSignIn, category_list);
 
 module.exports = router;

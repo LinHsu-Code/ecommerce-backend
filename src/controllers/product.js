@@ -38,3 +38,13 @@ exports.product_create_post = (req, res) => {
 //     return res.status(200).json({ categoryList });
 //   });
 // };
+
+exports.product_list = async (req, res) => {
+  // const products = await Product.find({ createdBy: req.user._id })
+  const products = await Product.find({})
+    .select("_id name price quantity slug description productPictures category")
+    .populate({ path: "category", select: "_id name" })
+    .exec();
+
+  res.status(200).json({ products });
+};

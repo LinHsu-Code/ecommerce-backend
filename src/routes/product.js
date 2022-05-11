@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const { requireSignIn, adminMiddleware } = require("../common-middleware");
-const { product_create_post } = require("../controllers/product");
+const { product_create_post, product_list } = require("../controllers/product");
 const { nanoid } = require("nanoid");
 const path = require("path");
 
@@ -24,6 +24,7 @@ router.post(
   upload.array("productPicture"),
   product_create_post
 );
-// router.get("/categories", category_list);
+
+router.get("/list", requireSignIn, product_list);
 
 module.exports = router;
